@@ -1,22 +1,28 @@
 const puppeteer = require('puppeteer');
+const { employees } = require('./db');
+const fetch = require('node-fetch');
 
 const units = [
-  //   {
-  //     structure: 'RDLP',
-  //     structureLong: 'regionalna-dyrekcja-lp',
-  //     name: 'lodz',
-  //     supervisionName: '',
-  //   },
+  // {
+  //   structure: 'RDLP',
+  //   urlStructureLong: 'regionalna-dyrekcja-lp',
+  //   urlName: 'bialystok',
+  //   urlSupervisionName: '',
+  // },
   {
-    structure: 'District',
-    structureLong: 'nadlesnictwo',
-    name: 'bogdaniec',
-    supervisionName: '.szczecin',
+    unitName: 'RDLP w Łodzi',
+    structure: 'RDLP',
+    unitUrl: 'https://lodz.lasy.gov.pl/regionalna-dyrekcja-lp',
   },
+  // {
+  //   unitName: 'Nadleśnictwo Parciaki',
+  //   structure: 'District',
+  //   unitUrl: 'https://parciaki.olsztyn.lasy.gov.pl/nadlesnictwo',
+  // },
   //   {
   //     structure: 'RDLP',
-  //     structureLong: 'regionalna-dyrekcja-lp',
-  //     name: 'szczecin',
+  //     urlStructureLong: 'regionalna-dyrekcja-lp',
+  //     urlName: 'szczecin',
   //   },
 ];
 
@@ -26,11 +32,13 @@ for (let unit of units) {
       headless: false,
       defaultViewport: false,
       ignoreHTTPSErrors: true,
+      ignoreDefaultArgs: ['--disable-extensions'],
     });
     const page = await browser.newPage();
 
     await page.goto(
-      `https://www.${unit.name}${unit.supervisionName}.lasy.gov.pl/${unit.structureLong}`
+      // `https://${unit.urlName}${unit.urlSupervisionName}.lasy.gov.pl/${unit.urlStructureLong}`
+      unit.unitUrl
     );
 
     const mainPositions = await page.$$('.positions > .position');
@@ -49,76 +57,71 @@ for (let unit of units) {
         element
       );
 
-      console.log(`${fullName} -- ${position}`);
-    }
+      let employee = {
+        fullName,
+        unitName: unit.unitName,
+        position,
+      };
 
-    const secondaryPositions = await page.$$('.departments > .department');
+      console.log(employee);
 
-    // const secondaryPositionsDepartments = await page.$$(
-    //   '.departments > .department > .department-data > .department-positions'
-    // );
-
-    for (let element of secondaryPositions) {
-      let department = null;
       try {
-        department = await page.evaluate(
-          (el) => el.querySelector('h2 > a').textContent,
-          element
-        );
+        const response = await fetch(`http://localhost:8000/employees`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(employee),
+        });
 
-        const secondaryPositionsDepartments = await element.$$(
-          '.department-data > .department-positions > .department-position-wrapper'
-        );
-
-        for (let innerElement of secondaryPositionsDepartments) {
-          let position = null;
-          let fullName = null;
-
-          position = await page.evaluate(
-            (el) => el.querySelector('.name > span').textContent,
-            innerElement
-          );
-
-          fullName = await page.evaluate(
-            (el) => el.querySelector('.full-name > span').textContent,
-            innerElement
-          );
-
-          console.log(` ${fullName} -- ${position} -- ${department}`);
+        if (response.ok) {
+          console.log('Data saved successfully');
+        } else {
+          console.error('Error saving data:', response.statusText);
         }
-      } catch (err) {}
+      } catch (error) {
+        console.error('Error saving data:', error);
+      }
     }
 
     // const secondaryPositions = await page.$$('.departments > .department');
 
-    // console.log(
-    //   await page.$$(
-    //     '.departments > .department > .department-data > .department-positions'
-    //   )
-    // );
-
     // for (let element of secondaryPositions) {
-    //   let position = null;
-    //   let fullName = null;
     //   let department = null;
     //   try {
-    //     position = await page.evaluate(
-    //       (el) => el.querySelector('.name > span').textContent,
-    //       element
-    //     );
-
-    //     fullName = await page.evaluate(
-    //       (el) => el.querySelector('.full-name > span').textContent,
-    //       element
-    //     );
-
     //     department = await page.evaluate(
     //       (el) => el.querySelector('h2 > a').textContent,
     //       element
     //     );
-    //   } catch (err) {}
 
-    //   console.log(` ${fullName} -- ${position} -- ${department}`);
+    //     const secondaryPositionsDepartments = await element.$$(
+    //       '.department-data > .department-positions > .department-position-wrapper'
+    //     );
+
+    //     for (let innerElement of secondaryPositionsDepartments) {
+    //       let position = null;
+    //       let fullName = null;
+
+    //       position = await page.evaluate(
+    //         (el) => el.querySelector('.name > span').textContent,
+    //         innerElement
+    //       );
+
+    //       fullName = await page.evaluate(
+    //         (el) => el.querySelector('.full-name > span').textContent,
+    //         innerElement
+    //       );
+
+    //       let employee = {
+    //         fullName,
+    //         unitName: unit.unitName,
+    //         position,
+    //         department,
+    //       };
+
+    //       console.log(employee);
+    //     }
+    //   } catch (err) {}
     // }
 
     //   await browser.close();
