@@ -9,10 +9,15 @@ const units = [
   //   urlName: 'bialystok',
   //   urlSupervisionName: '',
   // },
+  // {
+  //   unitName: 'RDLP w Łodzi',
+  //   structure: 'RDLP',
+  //   unitUrl: 'https://lodz.lasy.gov.pl/regionalna-dyrekcja-lp',
+  // },
   {
-    unitName: 'RDLP w Łodzi',
+    unitName: 'RDLP w Poznaniu',
     structure: 'RDLP',
-    unitUrl: 'https://lodz.lasy.gov.pl/regionalna-dyrekcja-lp',
+    unitUrl: 'https://poznan.lasy.gov.pl/regionalna-dyrekcja-lp',
   },
   // {
   //   unitName: 'Nadleśnictwo Parciaki',
@@ -66,7 +71,7 @@ for (let unit of units) {
       console.log(employee);
 
       try {
-        const response = await fetch(`http://localhost:8000/employees`, {
+        const response = await fetch(`http://localhost:8000/employee`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

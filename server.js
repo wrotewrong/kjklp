@@ -46,5 +46,14 @@ const db = mongoose.connection;
 
 db.once('open', () => {
   console.log('Connected to the database');
+
+  let createdAt = '2023-05-15T21:20:06.196+00:00';
+
+  const dateNow = Date.now();
+  console.log(dateNow);
+  const dateCreate = Date.parse(createdAt);
+  console.log(dateCreate);
+  console.log(dateCreate - dateNow);
+  // let week = 604800000
 });
 db.on('error', (err) => console.log('Error ' + err));
