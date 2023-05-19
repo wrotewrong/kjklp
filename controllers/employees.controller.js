@@ -8,6 +8,17 @@ exports.getAll = async (req, res) => {
   }
 };
 
+exports.getAllByDate = async (req, res) => {
+  try {
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 1);
+
+    res.json(await Employee.find({ createdAt: { $gte: sevenDaysAgo } }));
+  } catch (err) {
+    res.status(500).json({ message: err });
+  }
+};
+
 exports.getOne = async (req, res) => {
   try {
     const existingEmployee = await Employee.findOne({ ...req.body });

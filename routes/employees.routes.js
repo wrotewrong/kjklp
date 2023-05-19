@@ -9,6 +9,8 @@ const database = db.employees;
 //   res.render('employees', { employees: database });
 // });
 
+router.get('/employees/date', employeesController.getAllByDate);
+
 router.get('/employee', employeesController.getOne);
 
 router.post('/employee', employeesController.addEmployeeIfNotExist);

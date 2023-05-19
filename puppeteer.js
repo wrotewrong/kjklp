@@ -14,16 +14,16 @@ const units = [
   //   structure: 'RDLP',
   //   unitUrl: 'https://lodz.lasy.gov.pl/regionalna-dyrekcja-lp',
   // },
-  {
-    unitName: 'RDLP w Poznaniu',
-    structure: 'RDLP',
-    unitUrl: 'https://poznan.lasy.gov.pl/regionalna-dyrekcja-lp',
-  },
   // {
-  //   unitName: 'Nadleśnictwo Parciaki',
-  //   structure: 'District',
-  //   unitUrl: 'https://parciaki.olsztyn.lasy.gov.pl/nadlesnictwo',
+  //   unitName: 'RDLP w Poznaniu',
+  //   structure: 'RDLP',
+  //   unitUrl: 'https://poznan.lasy.gov.pl/regionalna-dyrekcja-lp',
   // },
+  {
+    unitName: 'Nadleśnictwo Gostynin',
+    structure: 'District',
+    unitUrl: 'https://gostynin.lodz.lasy.gov.pl/nadlesnictwo',
+  },
   //   {
   //     structure: 'RDLP',
   //     urlStructureLong: 'regionalna-dyrekcja-lp',
