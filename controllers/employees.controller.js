@@ -8,12 +8,16 @@ exports.getAll = async (req, res) => {
   }
 };
 
-exports.getAllByDate = async (req, res) => {
+exports.renderAllByDate = async (req, res) => {
   try {
     const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 1);
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-    res.json(await Employee.find({ createdAt: { $gte: sevenDaysAgo } }));
+    const requestedEmployees = await Employee.find({
+      createdAt: { $gte: sevenDaysAgo },
+    }).lean();
+
+    res.render('employees', { employees: requestedEmployees });
   } catch (err) {
     res.status(500).json({ message: err });
   }

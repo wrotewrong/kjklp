@@ -1,21 +1,10 @@
-{{!-- <html lang='en' dir='ltr'>
-  <head>
-    <meta charset='utf-8' />
-    <title>Hello!</title>
-    <link rel='stylesheet' href='style.css' />
-  </head>
-  <body>
-    <h1>Here are the employees:
-      {{#each employees}}
-        <li>{{firstName}}</li>
-      {{/each}}
-    </h1>
-    <img src='test.png' alt='' />
-  </body>
-</html> --}}
-
-<h1>Here are the employees:
+<h1>Oto ostatnie zmiany kadrowe w LP
   {{#each employees}}
-    <li>{{firstName}}</li>
+    <div class='employee'>
+      <div>{{fullName}}</div>
+      <div>{{position}}</div>
+      <div>{{unitName}}</div>
+      <div>{{department}}</div>
+    </div>
   {{/each}}
 </h1>
