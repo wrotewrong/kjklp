@@ -19,10 +19,15 @@ const units = [
   //   structure: 'RDLP',
   //   unitUrl: 'https://poznan.lasy.gov.pl/regionalna-dyrekcja-lp',
   // },
+  // {
+  //   unitName: 'Nadleśnictwo Gostynin',
+  //   structure: 'District',
+  //   unitUrl: 'https://gostynin.lodz.lasy.gov.pl/nadlesnictwo',
+  // },
   {
-    unitName: 'Nadleśnictwo Gostynin',
+    unitName: 'Nadleśnictwo Koło',
     structure: 'District',
-    unitUrl: 'https://gostynin.lodz.lasy.gov.pl/nadlesnictwo',
+    unitUrl: 'https://kolo.poznan.lasy.gov.pl/nadlesnictwo',
   },
   //   {
   //     structure: 'RDLP',
@@ -89,45 +94,63 @@ for (let unit of units) {
       }
     }
 
-    // const secondaryPositions = await page.$$('.departments > .department');
+    const secondaryPositions = await page.$$('.departments > .department');
 
-    // for (let element of secondaryPositions) {
-    //   let department = null;
-    //   try {
-    //     department = await page.evaluate(
-    //       (el) => el.querySelector('h2 > a').textContent,
-    //       element
-    //     );
+    for (let element of secondaryPositions) {
+      let department = null;
+      try {
+        department = await page.evaluate(
+          (el) => el.querySelector('h2 > a').textContent,
+          element
+        );
 
-    //     const secondaryPositionsDepartments = await element.$$(
-    //       '.department-data > .department-positions > .department-position-wrapper'
-    //     );
+        const secondaryPositionsDepartments = await element.$$(
+          '.department-data > .department-positions > .department-position-wrapper'
+        );
 
-    //     for (let innerElement of secondaryPositionsDepartments) {
-    //       let position = null;
-    //       let fullName = null;
+        for (let innerElement of secondaryPositionsDepartments) {
+          let position = null;
+          let fullName = null;
 
-    //       position = await page.evaluate(
-    //         (el) => el.querySelector('.name > span').textContent,
-    //         innerElement
-    //       );
+          position = await page.evaluate(
+            (el) => el.querySelector('.name > span').textContent,
+            innerElement
+          );
 
-    //       fullName = await page.evaluate(
-    //         (el) => el.querySelector('.full-name > span').textContent,
-    //         innerElement
-    //       );
+          fullName = await page.evaluate(
+            (el) => el.querySelector('.full-name > span').textContent,
+            innerElement
+          );
 
-    //       let employee = {
-    //         fullName,
-    //         unitName: unit.unitName,
-    //         position,
-    //         department,
-    //       };
+          let employee = {
+            fullName,
+            unitName: unit.unitName,
+            position,
+            department,
+          };
 
-    //       console.log(employee);
-    //     }
-    //   } catch (err) {}
-    // }
+          console.log(employee);
+
+          try {
+            const response = await fetch(`http://localhost:8000/employee`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(employee),
+            });
+
+            if (response.ok) {
+              console.log('Data saved successfully');
+            } else {
+              console.error('Error saving data:', response.statusText);
+            }
+          } catch (error) {
+            console.error('Error saving data:', error);
+          }
+        }
+      } catch (err) {}
+    }
 
     //   await browser.close();
   })();

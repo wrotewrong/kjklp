@@ -2,6 +2,7 @@ const express = require('express');
 // const db = require('./db');
 const path = require('path');
 const hbs = require('express-handlebars');
+const Handlebars = require('./utils/handlebars.js');
 const mongoose = require('mongoose');
 require('dotenv').config();
 const cors = require('cors');

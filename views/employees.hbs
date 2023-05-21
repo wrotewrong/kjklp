@@ -1,10 +1,24 @@
 <h1>Oto ostatnie zmiany kadrowe w LP
+  <p class='text-primary'>text-primary</p>
+
   {{#each employees}}
     <div class='employee'>
-      <div>{{fullName}}</div>
-      <div>{{position}}</div>
-      <div>{{unitName}}</div>
-      <div>{{department}}</div>
+      <div class='shoulder-mark'><img
+          src='https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/POL_patka_mund-le%C5%9Bnika_2017_nr08.svg/800px-POL_patka_mund-le%C5%9Bnika_2017_nr08.svg.png'
+          alt=''
+        /></div>
+      <div class='personal-info'>
+        <div class='fullname'>{{fullName}}</div>
+        <div class='position'>{{position}}</div>
+        {{#notEqual position 'Inżynier Nadzoru'}}
+          <div class='department'>{{department}}</div>
+        {{/notEqual}}
+        <div class='unitname'>{{unitName}}</div>
+      </div>
+      <div class='shoulder-mark'><img
+          src='https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/POL_patka_mund-le%C5%9Bnika_2017_nr08.svg/800px-POL_patka_mund-le%C5%9Bnika_2017_nr08.svg.png'
+          alt=''
+        /></div>
     </div>
   {{/each}}
 </h1>

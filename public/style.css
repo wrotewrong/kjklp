@@ -1,21 +1,24 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 
 body {
-  background: #282c34;
-  color: #fff;
+  background: #c1d0b5;
+  color: #737f6d;
   font-family: 'Open Sans', sans-serif;
-  padding: 30px;
   text-align: center;
+}
+
+.container {
+  max-width: 1000px;
 }
 
 h1 {
   font-weight: lighter;
 }
 
-p {
+/* p {
   color: #999;
   font-size: 0.8rem;
-}
+} */
 
 a {
   color: #999;
@@ -23,6 +26,64 @@ a {
 }
 
 .employee {
+  background: #fff8de;
   margin-bottom: 20px;
-  border: 3px solid red;
+  border: 3px solid #eac37a;
+  border-radius: 25px;
+  display: flex;
+  overflow: hidden;
+  padding: 5px;
+}
+
+.shoulder-mark {
+  margin: 10px;
+  border-radius: 50px;
+  flex-grow: 1;
+  width: 1;
+}
+
+.personal-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 6;
+  width: 1;
+}
+
+.shoulder-mark img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+.position {
+  font-size: 1.5rem;
+}
+
+.department {
+  font-size: 1.5rem;
+}
+
+@media (max-width: 700px) {
+  .position {
+    font-size: 1rem;
+  }
+
+  .department {
+    font-size: 1rem;
+  }
+
+  .fullname {
+    font-size: 1.5rem;
+  }
+
+  .unitname {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .shoulder-mark:first-child {
+    display: none;
+  }
 }
