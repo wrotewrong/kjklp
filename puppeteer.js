@@ -21,12 +21,12 @@ const units = [
   // },
   // {
   //   unitName: 'Nadleśnictwo Gostynin',
-  //   structure: 'District',
+  //   structure: 'DISTRICT',
   //   unitUrl: 'https://gostynin.lodz.lasy.gov.pl/nadlesnictwo',
   // },
   {
     unitName: 'Nadleśnictwo Koło',
-    structure: 'District',
+    structure: 'DISTRICT',
     unitUrl: 'https://kolo.poznan.lasy.gov.pl/nadlesnictwo',
   },
   //   {
@@ -56,6 +56,7 @@ for (let unit of units) {
     for (let element of mainPositions) {
       let position = null;
       let fullName = null;
+      let shoulderMarkImg = null;
 
       position = await page.evaluate(
         (el) => el.querySelector('.name > span').textContent,
@@ -71,6 +72,7 @@ for (let unit of units) {
         fullName,
         unitName: unit.unitName,
         position,
+        shoulderMarkImg,
       };
 
       console.log(employee);
