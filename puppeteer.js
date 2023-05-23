@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer');
 const { employees } = require('./db');
 const fetch = require('node-fetch');
+const getShoulderMarkImg = require('./utils/shoulderMark.js');
 
 const units = [
   // {
@@ -14,21 +15,21 @@ const units = [
   //   structure: 'RDLP',
   //   unitUrl: 'https://lodz.lasy.gov.pl/regionalna-dyrekcja-lp',
   // },
-  // {
-  //   unitName: 'RDLP w Poznaniu',
-  //   structure: 'RDLP',
-  //   unitUrl: 'https://poznan.lasy.gov.pl/regionalna-dyrekcja-lp',
-  // },
+  {
+    unitName: 'RDLP w Krośnie',
+    structure: 'RDLP',
+    unitUrl: 'https://www.krosno.lasy.gov.pl/regionalna-dyrekcja-lp',
+  },
   // {
   //   unitName: 'Nadleśnictwo Gostynin',
   //   structure: 'DISTRICT',
   //   unitUrl: 'https://gostynin.lodz.lasy.gov.pl/nadlesnictwo',
   // },
-  {
-    unitName: 'Nadleśnictwo Koło',
-    structure: 'DISTRICT',
-    unitUrl: 'https://kolo.poznan.lasy.gov.pl/nadlesnictwo',
-  },
+  // {
+  //   unitName: 'Nadleśnictwo Konin',
+  //   structure: 'DISTRICT',
+  //   unitUrl: 'https://konin.poznan.lasy.gov.pl/nadlesnictwo',
+  // },
   //   {
   //     structure: 'RDLP',
   //     urlStructureLong: 'regionalna-dyrekcja-lp',
@@ -56,7 +57,6 @@ for (let unit of units) {
     for (let element of mainPositions) {
       let position = null;
       let fullName = null;
-      let shoulderMarkImg = null;
 
       position = await page.evaluate(
         (el) => el.querySelector('.name > span').textContent,
@@ -72,7 +72,7 @@ for (let unit of units) {
         fullName,
         unitName: unit.unitName,
         position,
-        shoulderMarkImg,
+        shoulderMarkImg: getShoulderMarkImg(position, unit.structure),
       };
 
       console.log(employee);
@@ -129,6 +129,7 @@ for (let unit of units) {
             unitName: unit.unitName,
             position,
             department,
+            shoulderMarkImg: getShoulderMarkImg(position, unit.structure),
           };
 
           console.log(employee);

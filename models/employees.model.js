@@ -6,6 +6,7 @@ const employeeSchema = mongoose.Schema(
     unitName: { type: String, required: true },
     position: { type: String, required: true },
     department: { type: String },
+    shoulderMarkImg: { type: String },
   },
   { timestamps: true }
 );
