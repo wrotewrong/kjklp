@@ -163,7 +163,7 @@ const shoulderMarkDB = [
   },
 ];
 
-const getShoulderMarkImg = (downloadedPosition, unit) => {
+const getShoulderMarkImg = (downloadedPosition = '', unit) => {
   for (let shoulderMark of shoulderMarkDB) {
     for (let position of shoulderMark.positions) {
       let [positionPart, unitStructurePart] = position.split('_');
