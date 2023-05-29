@@ -29,16 +29,48 @@ const units = [
   //   structure: 'RDLP',
   //   unitUrl: 'https://lodz.lasy.gov.pl/regionalna-dyrekcja-lp',
   // },
-  {
-    unitName: 'RDLP w Białymstoku',
-    structure: 'RDLP',
-    unitUrl: 'https://www.bialystok.lasy.gov.pl/regionalna-dyrekcja-lp',
-  },
+  // {
+  //   unitName: 'RDLP w Białymstoku',
+  //   structure: 'RDLP',
+  //   unitUrl: 'https://www.bialystok.lasy.gov.pl/regionalna-dyrekcja-lp',
+  // },
   // {
   //   unitName: 'RDLP w Krośnie',
   //   structure: 'RDLP',
   //   unitUrl: 'https://www.krosno.lasy.gov.pl/regionalna-dyrekcja-lp',
   // },
+  // {
+  //   unitName: 'RDLP w Gdańsku',
+  //   structure: 'RDLP',
+  //   unitUrl: 'https://www.gdansk.lasy.gov.pl/regionalna-dyrekcja-lp',
+  // },
+  {
+    unitName: 'RDLP w Olsztynie',
+    structure: 'RDLP',
+    unitUrl: 'https://www.olsztyn.lasy.gov.pl/kontakty',
+  },
+  // {
+  //   unitName: 'RDLP w Zielonej Górze',
+  //   structure: 'RDLP',
+  //   unitUrl:
+  //     'https://www.zielonagora.lasy.gov.pl/kontakt-regionalna-dyrekcja-lp',
+  // },
+  // {
+  //   unitName: 'RDLP w Poznaniu',
+  //   structure: 'RDLP',
+  //   unitUrl: 'https://www.poznan.lasy.gov.pl/regionalna-dyrekcja-lp',
+  // },
+  // {
+  //   unitName: 'RDLP w Pile',
+  //   structure: 'RDLP',
+  //   unitUrl: 'https://www.pila.lasy.gov.pl/regionalna-dyrekcja-lp',
+  // },
+  // {
+  //   unitName: 'RDLP w Toruniu',
+  //   structure: 'RDLP',
+  //   unitUrl: 'https://www.torun.lasy.gov.pl/regionalna-dyrekcja-lp',
+  // },
+
   // {
   //   unitName: 'Nadleśnictwo Gostynin',
   //   structure: 'DISTRICT',
@@ -92,7 +124,11 @@ async function scrapUnitData(openDelay, unit) {
           fullName,
           unitName: unit.unitName,
           position,
-          shoulderMarkImg: getShoulderMarkImg(position, unit.structure),
+          shoulderMarkImg: getShoulderMarkImg(
+            position,
+            fullName,
+            unit.structure
+          ),
         };
 
         // console.log(employee);
@@ -149,7 +185,11 @@ async function scrapUnitData(openDelay, unit) {
               unitName: unit.unitName,
               position,
               department,
-              shoulderMarkImg: getShoulderMarkImg(position, unit.structure),
+              shoulderMarkImg: getShoulderMarkImg(
+                position,
+                fullName,
+                unit.structure
+              ),
             };
 
             // console.log(employee);

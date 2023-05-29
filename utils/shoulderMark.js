@@ -1,3 +1,7 @@
+// shoulderMarkDB.positions contains all possible combinations of employee's position
+// each position consist of a positionPart and unitStructurePart connected with "_"
+// shoulderMarkDB.img refers to imgs uploaded to server's public folder
+// shoulderMarkDB.rank might be use in the future to sort by rank
 const shoulderMarkDB = [
   {
     positions: [
@@ -19,10 +23,16 @@ const shoulderMarkDB = [
     positions: [
       'główny księgowy_DGLP',
       'główny księgowy_RDLP',
+      'gł. księgowy_DGLP',
+      'gł. księgowy_RDLP',
       'główna księgowa_DGLP',
       'główna księgowa_RDLP',
+      'gł. księgowa_DGLP',
+      'gł. księgowa_RDLP',
       'główny inspektor_DGLP',
       'główny inspektor_RDLP',
+      'gł. inspektor_DGLP',
+      'gł. inspektor_RDLP',
     ],
     img: '1rectangles3leaves_whole_unregular.png',
     rank: 3,
@@ -102,6 +112,8 @@ const shoulderMarkDB = [
       'z-ca dyrektora_REGIONALPLANT',
       'główny księgowy_DISTRICT',
       'główna księgowa_DISTRICT',
+      'gł. księgowy_DISTRICT',
+      'gł. księgowa_DISTRICT',
     ],
     img: '2rectangles3leaves_top_unregular.png',
     rank: 5,
@@ -122,6 +134,7 @@ const shoulderMarkDB = [
       'spec. sl_DGLP',
       'spec. sl_RDLP',
       'inżynier nadzoru_DISTRICT',
+      'inż. nadzoru_DISTRICT',
     ],
     img: '1rectangles3leaves_top_unregular.png',
     rank: 6,
@@ -139,6 +152,7 @@ const shoulderMarkDB = [
       'sekretarz_DISTRICT',
       'leśniczy_DISTRICT',
       'starszy strażnik leśny_DISTRICT',
+      'st. strażnik leśny_DISTRICT',
       'komendant_DISTRICT',
     ],
     img: '3rectangles2leaves_whole_regular.png',
@@ -163,7 +177,18 @@ const shoulderMarkDB = [
   },
 ];
 
-const getShoulderMarkImg = (downloadedPosition = '', unit) => {
+// the getShoulderMarkImg function is used to determine the employee's shoulder mark image
+// it takes 3 arguments:
+// downloadedPosition - a position scrapped from the site
+// downloadedName - a name scrapped from the site
+// unit - current unit's structure (i.e. RDLP, DISTRICT) taken from the database
+// it then iterates trough every shoulderMarkDB object, and further trough all of it's positions
+// then it splits the position string into two parts: positionPart and unitStructurePart
+// then it checks if the position scrapped from the site contains all the words included in shoulderMarkDB positions AND if the unit structures are the same
+// it returns the assaigned image when it find a match
+// if it fails - there is another loop that does the same check for name scrapped from the site (rarely the name string contains the poistion)
+// if it can't assign the image it will take the image from the very last element of the array - which contains generic image for employees outside the Forest Service
+const getShoulderMarkImg = (downloadedPosition = '', downloadedName, unit) => {
   for (let shoulderMark of shoulderMarkDB) {
     for (let position of shoulderMark.positions) {
       let [positionPart, unitStructurePart] = position.split('_');
@@ -176,11 +201,29 @@ const getShoulderMarkImg = (downloadedPosition = '', unit) => {
         return shoulderMark.img;
       }
     }
+    // the reason for additional loop: it's very rare for position to be included in the name, to speed up the process it should be checked only if the first loop fails
+    for (let position of shoulderMark.positions) {
+      let [positionPart, unitStructurePart] = position.split('_');
+      if (
+        positionPart
+          .split(' ')
+          .every((word) => downloadedName.toLowerCase().includes(word)) &&
+        unit === unitStructurePart
+      ) {
+        return shoulderMark.img;
+      }
+    }
   }
   return shoulderMarkDB[shoulderMarkDB.length - 1].img;
 };
 
-// console.log(getShoulderMarkImg('p.o. Naczelnika Wydz', 'RDLP'));
+// console.log(
+//   getShoulderMarkImg(
+//     'Wydział Organizacji i Kadr (DO)',
+//     'Marzena Sobiech - Gł. Księgowa',
+//     'RDLP'
+//   )
+// );
 // console.log(getShoulderMarkImg('st. specjalista sl', 'DISTRICT'));
 // console.log(getShoulderMarkImg('ZASTĘPCA NADLEŚNICZEGO', 'DISTRICT'));
 
