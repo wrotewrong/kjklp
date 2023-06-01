@@ -9,12 +9,6 @@ puppeteer.use(StealthPlugin());
 
 const units = [
   // {
-  //   structure: 'RDLP',
-  //   urlStructureLong: 'regionalna-dyrekcja-lp',
-  //   urlName: 'bialystok',
-  //   urlSupervisionName: '',
-  // },
-  // {
   //   unitName: 'RDLP w Szczecinie',
   //   structure: 'RDLP',
   //   unitUrl: 'https://www.szczecin.lasy.gov.pl/regionalna-dyrekcja-lp',
@@ -29,21 +23,16 @@ const units = [
   //   structure: 'RDLP',
   //   unitUrl: 'https://lodz.lasy.gov.pl/regionalna-dyrekcja-lp',
   // },
-  // {
-  //   unitName: 'RDLP w Białymstoku',
-  //   structure: 'RDLP',
-  //   unitUrl: 'https://www.bialystok.lasy.gov.pl/regionalna-dyrekcja-lp',
-  // },
-  // {
-  //   unitName: 'RDLP w Krośnie',
-  //   structure: 'RDLP',
-  //   unitUrl: 'https://www.krosno.lasy.gov.pl/regionalna-dyrekcja-lp',
-  // },
-  // {
-  //   unitName: 'RDLP w Gdańsku',
-  //   structure: 'RDLP',
-  //   unitUrl: 'https://www.gdansk.lasy.gov.pl/regionalna-dyrekcja-lp',
-  // },
+  {
+    unitName: 'RDLP w Białymstoku',
+    structure: 'RDLP',
+    unitUrl: 'https://www.bialystok.lasy.gov.pl/regionalna-dyrekcja-lp',
+  },
+  {
+    unitName: 'RDLP w Gdańsku',
+    structure: 'RDLP',
+    unitUrl: 'https://www.gdansk.lasy.gov.pl/regionalna-dyrekcja-lp',
+  },
   {
     unitName: 'RDLP w Olsztynie',
     structure: 'RDLP',
@@ -70,6 +59,41 @@ const units = [
   //   structure: 'RDLP',
   //   unitUrl: 'https://www.torun.lasy.gov.pl/regionalna-dyrekcja-lp',
   // },
+  // {
+  //   unitName: 'RDLP w Warszawie',
+  //   structure: 'RDLP',
+  //   unitUrl: 'https://www.warszawa.lasy.gov.pl/regionalna-dyrekcja-lp',
+  // },
+  // {
+  //   unitName: 'RDLP w Radomiu',
+  //   structure: 'RDLP',
+  //   unitUrl: 'https://www.radom.lasy.gov.pl/regionalna-dyrekcja-lp',
+  // },
+  // {
+  //   unitName: 'RDLP w Lublinie',
+  //   structure: 'RDLP',
+  //   unitUrl: 'https://www.lublin.lasy.gov.pl/regionalna-dyrekcja-lp',
+  // },
+  // {
+  //   unitName: 'RDLP w Krośnie',
+  //   structure: 'RDLP',
+  //   unitUrl: 'https://www.krosno.lasy.gov.pl/regionalna-dyrekcja-lp',
+  // },
+  // {
+  //   unitName: 'RDLP w Katowicach',
+  //   structure: 'RDLP',
+  //   unitUrl: 'https://www.katowice.lasy.gov.pl/regionalna-dyrekcja-lp',
+  // },
+  // {
+  //   unitName: 'RDLP w Krakowie',
+  //   structure: 'RDLP',
+  //   unitUrl: 'https://www.krakow.lasy.gov.pl/regionalna-dyrekcja-lp',
+  // },
+  // {
+  //   unitName: 'RDLP we Wrocławiu',
+  //   structure: 'RDLP',
+  //   unitUrl: 'https://www.wroclaw.lasy.gov.pl/regionalna-dyrekcja-lp',
+  // },
 
   // {
   //   unitName: 'Nadleśnictwo Gostynin',
@@ -81,11 +105,6 @@ const units = [
   //   structure: 'DISTRICT',
   //   unitUrl: 'https://konin.poznan.lasy.gov.pl/nadlesnictwo',
   // },
-  //   {
-  //     structure: 'RDLP',
-  //     urlStructureLong: 'regionalna-dyrekcja-lp',
-  //     urlName: 'szczecin',
-  //   },
 ];
 
 async function scrapUnitData(openDelay, unit) {

@@ -1,5 +1,21 @@
 <h1>Oto ostatnie zmiany kadrowe w LP
   <p class='text-primary'>text-primary</p>
+  <form action='/list' method='GET'>
+    <label for='dropdownArea'>Wybierz zasięg:</label>
+    <select id='dropdownArea' name='selectedArea'>
+      {{#each dropdownAreas}}
+        <option value='{{message}}'>{{message}}</option>
+      {{/each}}
+    </select>
+
+    <label for='dropdownPeriod'>Wybierz okres:</label>
+    <select id='dropdownPeriod' name='selectedPeriod'>
+      {{#each dropdownPeriods}}
+        <option value='{{message}}'>{{message}}</option>
+      {{/each}}
+    </select>
+    <button type='submit'>Filtruj</button>
+  </form>
 
   {{#each employees}}
     <div class='employee'>
