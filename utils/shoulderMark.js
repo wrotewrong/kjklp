@@ -198,7 +198,7 @@ const getShoulderMarkImg = (downloadedPosition = '', downloadedName, unit) => {
           .every((word) => downloadedPosition.toLowerCase().includes(word)) &&
         unit === unitStructurePart
       ) {
-        return shoulderMark.img;
+        return { shoulderMark: shoulderMark.img, rank: shoulderMark.rank };
       }
     }
     // the reason for additional loop: it's very rare for position to be included in the name, to speed up the process it should be checked only if the first loop fails
@@ -210,11 +210,14 @@ const getShoulderMarkImg = (downloadedPosition = '', downloadedName, unit) => {
           .every((word) => downloadedName.toLowerCase().includes(word)) &&
         unit === unitStructurePart
       ) {
-        return shoulderMark.img;
+        return { shoulderMark: shoulderMark.img, rank: shoulderMark.rank };
       }
     }
   }
-  return shoulderMarkDB[shoulderMarkDB.length - 1].img;
+  return {
+    shoulderMark: shoulderMarkDB[shoulderMarkDB.length - 1].img,
+    rank: shoulderMarkDB[shoulderMarkDB.length - 1].rank,
+  };
 };
 
 // console.log(

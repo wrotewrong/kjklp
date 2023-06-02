@@ -23,21 +23,21 @@ const units = [
   //   structure: 'RDLP',
   //   unitUrl: 'https://lodz.lasy.gov.pl/regionalna-dyrekcja-lp',
   // },
-  {
-    unitName: 'RDLP w Białymstoku',
-    structure: 'RDLP',
-    unitUrl: 'https://www.bialystok.lasy.gov.pl/regionalna-dyrekcja-lp',
-  },
-  {
-    unitName: 'RDLP w Gdańsku',
-    structure: 'RDLP',
-    unitUrl: 'https://www.gdansk.lasy.gov.pl/regionalna-dyrekcja-lp',
-  },
-  {
-    unitName: 'RDLP w Olsztynie',
-    structure: 'RDLP',
-    unitUrl: 'https://www.olsztyn.lasy.gov.pl/kontakty',
-  },
+  // {
+  //   unitName: 'RDLP w Białymstoku',
+  //   structure: 'RDLP',
+  //   unitUrl: 'https://www.bialystok.lasy.gov.pl/regionalna-dyrekcja-lp',
+  // },
+  // {
+  //   unitName: 'RDLP w Gdańsku',
+  //   structure: 'RDLP',
+  //   unitUrl: 'https://www.gdansk.lasy.gov.pl/regionalna-dyrekcja-lp',
+  // },
+  // {
+  //   unitName: 'RDLP w Olsztynie',
+  //   structure: 'RDLP',
+  //   unitUrl: 'https://www.olsztyn.lasy.gov.pl/kontakty',
+  // },
   // {
   //   unitName: 'RDLP w Zielonej Górze',
   //   structure: 'RDLP',
@@ -49,21 +49,21 @@ const units = [
   //   structure: 'RDLP',
   //   unitUrl: 'https://www.poznan.lasy.gov.pl/regionalna-dyrekcja-lp',
   // },
-  // {
-  //   unitName: 'RDLP w Pile',
-  //   structure: 'RDLP',
-  //   unitUrl: 'https://www.pila.lasy.gov.pl/regionalna-dyrekcja-lp',
-  // },
-  // {
-  //   unitName: 'RDLP w Toruniu',
-  //   structure: 'RDLP',
-  //   unitUrl: 'https://www.torun.lasy.gov.pl/regionalna-dyrekcja-lp',
-  // },
-  // {
-  //   unitName: 'RDLP w Warszawie',
-  //   structure: 'RDLP',
-  //   unitUrl: 'https://www.warszawa.lasy.gov.pl/regionalna-dyrekcja-lp',
-  // },
+  {
+    unitName: 'RDLP w Pile',
+    structure: 'RDLP',
+    unitUrl: 'https://www.pila.lasy.gov.pl/regionalna-dyrekcja-lp',
+  },
+  {
+    unitName: 'RDLP w Toruniu',
+    structure: 'RDLP',
+    unitUrl: 'https://www.torun.lasy.gov.pl/regionalna-dyrekcja-lp',
+  },
+  {
+    unitName: 'RDLP w Warszawie',
+    structure: 'RDLP',
+    unitUrl: 'https://www.warszawa.lasy.gov.pl/regionalna-dyrekcja-lp',
+  },
   // {
   //   unitName: 'RDLP w Radomiu',
   //   structure: 'RDLP',
@@ -139,18 +139,21 @@ async function scrapUnitData(openDelay, unit) {
           element
         );
 
+        const { shoulderMark, rank } = getShoulderMarkImg(
+          position,
+          fullName,
+          unit.structure
+        );
+
         let employee = {
           fullName,
           unitName: unit.unitName,
           position,
-          shoulderMarkImg: getShoulderMarkImg(
-            position,
-            fullName,
-            unit.structure
-          ),
+          shoulderMarkImg: shoulderMark,
+          rank,
         };
 
-        // console.log(employee);
+        console.log(employee);
 
         try {
           const response = await fetch(`http://localhost:8000/employee`, {
@@ -199,19 +202,22 @@ async function scrapUnitData(openDelay, unit) {
               innerElement
             );
 
+            const { shoulderMark, rank } = getShoulderMarkImg(
+              position,
+              fullName,
+              unit.structure
+            );
+
             let employee = {
               fullName,
               unitName: unit.unitName,
               position,
               department,
-              shoulderMarkImg: getShoulderMarkImg(
-                position,
-                fullName,
-                unit.structure
-              ),
+              shoulderMarkImg: shoulderMark,
+              rank,
             };
 
-            // console.log(employee);
+            console.log(employee);
 
             try {
               const response = await fetch(`http://localhost:8000/employee`, {

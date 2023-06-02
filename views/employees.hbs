@@ -4,14 +4,14 @@
     <label for='dropdownArea'>Wybierz zasięg:</label>
     <select id='dropdownArea' name='selectedArea'>
       {{#each dropdownAreas}}
-        <option value='{{message}}'>{{message}}</option>
+        <option value='{{option}}'>{{option}}</option>
       {{/each}}
     </select>
 
     <label for='dropdownPeriod'>Wybierz okres:</label>
     <select id='dropdownPeriod' name='selectedPeriod'>
       {{#each dropdownPeriods}}
-        <option value='{{message}}'>{{message}}</option>
+        <option value='{{option}}'>{{option}}</option>
       {{/each}}
     </select>
     <button type='submit'>Filtruj</button>

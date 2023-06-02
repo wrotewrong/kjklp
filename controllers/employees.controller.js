@@ -12,14 +12,14 @@ exports.renderAllByDate = async (req, res) => {
   try {
     // const dropdownDate = ['Wszyscy', 'RDLP w Łodzi', 'RDLP w Gdańsku'];
     const dropdownPeriods = [
-      { time: 'week', message: 'tydzień', days: 7 },
-      { time: 'month', message: 'miesiąc', days: 30 },
+      { time: 'week', option: 'tydzień', days: 7 },
+      { time: 'month', option: 'miesiąc', days: 30 },
     ];
 
     const dropdownAreas = [
-      { message: 'Wszyscy' },
-      { message: 'RDLP w Łodzi' },
-      { message: 'RDLP w Gdańsku' },
+      { option: 'Wszyscy' },
+      { option: 'RDLP w Łodzi' },
+      { option: 'RDLP w Gdańsku' },
     ];
 
     let selectedPeriod = '';
@@ -33,7 +33,7 @@ exports.renderAllByDate = async (req, res) => {
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 1);
       console.log('1');
     } else {
-      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 30);
       console.log('7');
     }
 
@@ -47,13 +47,22 @@ exports.renderAllByDate = async (req, res) => {
     //   }
     // };
 
-    const requestedEmployees = await Employee.find({
+    const filterQuery = {
       createdAt: { $gte: sevenDaysAgo },
-    }).lean();
+    };
+
+    if (req.query.selectedArea && req.query.selectedArea !== 'Wszyscy') {
+      filterQuery.unitName = req.query.selectedArea;
+    }
+
+    console.log({ filterQuery });
+
+    const requestedEmployees = await Employee.find(filterQuery).lean();
 
     res.render('employees', {
       employees: requestedEmployees,
       dropdownPeriods,
+      dropdownAreas,
     });
   } catch (err) {
     res.status(500).json({ message: err });
