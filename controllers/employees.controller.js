@@ -22,6 +22,8 @@ exports.renderAllByDate = async (req, res) => {
       { option: 'RDLP w Gdańsku' },
     ];
 
+    const dropdownRanks = [{ option: 'Wysokie' }, { option: 'Wszystkie' }];
+
     let selectedPeriod = '';
     req.query.selectedPeriod ? (selectedPeriod = req.query.selectedPeriod) : '';
     // selectedValue = req.query.selectedValue;
@@ -31,10 +33,8 @@ exports.renderAllByDate = async (req, res) => {
     // sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 1);
     if (selectedPeriod === 'tydzień') {
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 1);
-      console.log('1');
     } else {
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 30);
-      console.log('7');
     }
 
     // const selectedArea = (area) => {
@@ -55,14 +55,19 @@ exports.renderAllByDate = async (req, res) => {
       filterQuery.unitName = req.query.selectedArea;
     }
 
+    if (req.query.selectedRank === 'Wysokie') {
+      filterQuery.rank = { $lte: 5 };
+    }
+
     console.log({ filterQuery });
 
     const requestedEmployees = await Employee.find(filterQuery).lean();
 
     res.render('employees', {
-      employees: requestedEmployees,
+      employees: requestedEmployees.sort((a, b) => b.createdAt - a.createdAt),
       dropdownPeriods,
       dropdownAreas,
+      dropdownRanks,
     });
   } catch (err) {
     res.status(500).json({ message: err });

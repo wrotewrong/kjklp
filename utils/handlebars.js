@@ -8,4 +8,8 @@ Handlebars.registerHelper('notEqual', function (a, b, options) {
   }
 });
 
+Handlebars.registerHelper('eq', function (a, b) {
+  return a === b;
+});
+
 module.exports = Handlebars;
