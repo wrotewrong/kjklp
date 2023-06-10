@@ -3,24 +3,39 @@
   <form action='/list' method='GET'>
     <label>Terytorium:</label>
     <select id='dropdownArea' name='selectedArea'>
-      {{#each dropdownAreas}}
-        <option value='{{option}}'>{{option}}</option>
-      {{/each}}
+     <option value='PGL LP' {{#if (eq selectedArea "PGL LP")}}selected{{/if}}>PGL LP</option>
+     <option value='DGLP/Zakłady/ZOL' {{#if (eq selectedArea "DGLP/Zakłady/ZOL")}}selected{{/if}}>DGLP/Zakłady/ZOL</option>
+     <option value='RDLP w Białymstoku' {{#if (eq selectedArea "RDLP w Białymstoku")}}selected{{/if}}>RDLP w Białymstoku</option>
+     <option value='RDLP w Gdańsku' {{#if (eq selectedArea "RDLP w Gdańsku")}}selected{{/if}}>RDLP w Gdańsku</option>
+     <option value='RDLP w Katowicach' {{#if (eq selectedArea "RDLP w Katowicach")}}selected{{/if}}>RDLP w Katowicach</option>
+     <option value='RDLP w Krakowie' {{#if (eq selectedArea "RDLP w Krakowie")}}selected{{/if}}>RDLP w Krakowie</option>
+     <option value='RDLP w Krośnie' {{#if (eq selectedArea "RDLP w Krośnie")}}selected{{/if}}>RDLP w Krośnie</option>
+     <option value='RDLP w Lublinie' {{#if (eq selectedArea "RDLP w Lublinie")}}selected{{/if}}>RDLP w Lublinie</option>
+     <option value='RDLP w Łodzi' {{#if (eq selectedArea "RDLP w Łodzi")}}selected{{/if}}>RDLP w Łodzi</option>
+     <option value='RDLP w Olsztynie' {{#if (eq selectedArea "RDLP w Olsztynie")}}selected{{/if}}>RDLP w Olsztynie</option>
+     <option value='RDLP w Pile' {{#if (eq selectedArea "RDLP w Pile")}}selected{{/if}}>RDLP w Pile</option>
+     <option value='RDLP w Poznaniu' {{#if (eq selectedArea "RDLP w Poznaniu")}}selected{{/if}}>RDLP w Poznaniu</option>
+     <option value='RDLP w Radomiu' {{#if (eq selectedArea "RDLP w Radomiu")}}selected{{/if}}>RDLP w Radomiu</option>
+     <option value='RDLP w Szczecinie' {{#if (eq selectedArea "RDLP w Szczecinie")}}selected{{/if}}>RDLP w Szczecinie</option>
+     <option value='RDLP w Szczecinku' {{#if (eq selectedArea "RDLP w Szczecinku")}}selected{{/if}}>RDLP w Szczecinku</option>
+     <option value='RDLP w Toruniu' {{#if (eq selectedArea "RDLP w Toruniu")}}selected{{/if}}>RDLP w Toruniu</option>
+     <option value='RDLP w Warszawie' {{#if (eq selectedArea "RDLP w Warszawie")}}selected{{/if}}>RDLP w Warszawie</option>
+     <option value='RDLP we Wrocławiu' {{#if (eq selectedArea "RDLP we Wrocławiu")}}selected{{/if}}>RDLP we Wrocławiu</option>
+     <option value='RDLP w Zielonej Górze' {{#if (eq selectedArea "RDLP w Zielonej Górze")}}selected{{/if}}>RDLP w Zielonej Górze</option>
     </select>
 
     <label>Okres:</label>
     <select id='dropdownPeriod' name='selectedPeriod'>
-      {{#each dropdownPeriods}}
-        <option value='{{option}}'>{{option}}</option>
-      {{/each}}
+        <option value='tydzień' {{#if (eq selectedPeriod "tydzień")}}selected{{/if}}>tydzień</option>
+        <option value='miesiąc' {{#if (eq selectedPeriod 'miesiąc')}}selected{{/if}}>miesiąc</option>
     </select>
 
-    <label>Stopnie służbowe:</label>
+    <label>Stanowiska:</label>
     <select id='dropdownRank' name='selectedRank'>
-      {{#each dropdownRanks}}
-        <option value='{{option}}'>{{option}}</option>
-      {{/each}}
+        <option value='wysokie' {{#if (eq selectedRank 'wysokie')}}selected{{/if}}>wysokie</option>
+        <option value='wszystkie' {{#if (eq selectedRank 'wszystkie')}}selected{{/if}}>wszystkie</option>
     </select>
+    
     <button type='submit'>Filtruj</button>
   </form>
 
@@ -30,7 +45,7 @@
       <div class='personal-info'>
         <div class='fullname'>{{fullName}}</div>
         <div class='position'>{{position}}</div>
-        {{#notEqual position 'Inżynier Nadzoru'}}
+        {{#notEqual position department}}
           <div class='department'>{{department}}</div>
         {{/notEqual}}
         <div class='unitname'>{{unitName}}</div>

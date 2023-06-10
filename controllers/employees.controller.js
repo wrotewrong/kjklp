@@ -10,52 +10,26 @@ exports.getAll = async (req, res) => {
 
 exports.renderAllByDate = async (req, res) => {
   try {
-    // const dropdownDate = ['Wszyscy', 'RDLP w Łodzi', 'RDLP w Gdańsku'];
-    const dropdownPeriods = [
-      { time: 'week', option: 'tydzień', days: 7 },
-      { time: 'month', option: 'miesiąc', days: 30 },
-    ];
-
-    const dropdownAreas = [
-      { option: 'Wszyscy' },
-      { option: 'RDLP w Łodzi' },
-      { option: 'RDLP w Gdańsku' },
-    ];
-
-    const dropdownRanks = [{ option: 'Wysokie' }, { option: 'Wszystkie' }];
-
-    let selectedPeriod = '';
-    req.query.selectedPeriod ? (selectedPeriod = req.query.selectedPeriod) : '';
-    // selectedValue = req.query.selectedValue;
-    console.log(selectedPeriod);
+    let selectedPeriod = req.query.selectedPeriod || '';
+    let selectedRank = req.query.selectedRank || '';
+    let selectedArea = req.query.selectedArea || '';
 
     const sevenDaysAgo = new Date();
-    // sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 1);
     if (selectedPeriod === 'tydzień') {
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 1);
     } else {
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 30);
     }
 
-    // const selectedArea = (area) => {
-    //   if (area === 'Wszyscy') {
-    //     return 'Wszyscy';
-    //   } else if (area === 'RDLP w Łodzi') {
-    //     return 'RDLP w Łodzi';
-    //   } else {
-    //     return 'RDLP w Gdańsku';
-    //   }
-    // };
-
     const filterQuery = {
       createdAt: { $gte: sevenDaysAgo },
     };
 
-    if (req.query.selectedArea && req.query.selectedArea !== 'Wszyscy') {
-      filterQuery.unitName = req.query.selectedArea;
+    if (req.query.selectedArea && req.query.selectedArea !== 'PGL LP') {
+      filterQuery.area = req.query.selectedArea;
     }
 
-    if (req.query.selectedRank === 'Wysokie') {
+    if (req.query.selectedRank === 'wysokie') {
       filterQuery.rank = { $lte: 5 };
     }
 
@@ -65,9 +39,9 @@ exports.renderAllByDate = async (req, res) => {
 
     res.render('employees', {
       employees: requestedEmployees.sort((a, b) => b.createdAt - a.createdAt),
-      dropdownPeriods,
-      dropdownAreas,
-      dropdownRanks,
+      selectedPeriod,
+      selectedRank,
+      selectedArea,
     });
   } catch (err) {
     res.status(500).json({ message: err });

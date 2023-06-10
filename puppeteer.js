@@ -1,111 +1,10 @@
-// const puppeteer = require('puppeteer');
-const { employees } = require('./db');
 const fetch = require('node-fetch');
 const getShoulderMarkImg = require('./utils/shoulderMark.js');
 const puppeteer = require('puppeteer-extra');
+const { units } = require('./db');
 
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 puppeteer.use(StealthPlugin());
-
-const units = [
-  // {
-  //   unitName: 'RDLP w Szczecinie',
-  //   structure: 'RDLP',
-  //   unitUrl: 'https://www.szczecin.lasy.gov.pl/regionalna-dyrekcja-lp',
-  // },
-  // {
-  //   unitName: 'RDLP w Szczecinku',
-  //   structure: 'RDLP',
-  //   unitUrl: 'https://www.szczecinek.lasy.gov.pl/regionalna-dyrekcja-lp',
-  // },
-  // {
-  //   unitName: 'RDLP w Łodzi',
-  //   structure: 'RDLP',
-  //   unitUrl: 'https://lodz.lasy.gov.pl/regionalna-dyrekcja-lp',
-  // },
-  // {
-  //   unitName: 'RDLP w Białymstoku',
-  //   structure: 'RDLP',
-  //   unitUrl: 'https://www.bialystok.lasy.gov.pl/regionalna-dyrekcja-lp',
-  // },
-  // {
-  //   unitName: 'RDLP w Gdańsku',
-  //   structure: 'RDLP',
-  //   unitUrl: 'https://www.gdansk.lasy.gov.pl/regionalna-dyrekcja-lp',
-  // },
-  // {
-  //   unitName: 'RDLP w Olsztynie',
-  //   structure: 'RDLP',
-  //   unitUrl: 'https://www.olsztyn.lasy.gov.pl/kontakty',
-  // },
-  // {
-  //   unitName: 'RDLP w Zielonej Górze',
-  //   structure: 'RDLP',
-  //   unitUrl:
-  //     'https://www.zielonagora.lasy.gov.pl/kontakt-regionalna-dyrekcja-lp',
-  // },
-  // {
-  //   unitName: 'RDLP w Poznaniu',
-  //   structure: 'RDLP',
-  //   unitUrl: 'https://www.poznan.lasy.gov.pl/regionalna-dyrekcja-lp',
-  // },
-  // {
-  //   unitName: 'RDLP w Pile',
-  //   structure: 'RDLP',
-  //   unitUrl: 'https://www.pila.lasy.gov.pl/regionalna-dyrekcja-lp',
-  // },
-  // {
-  //   unitName: 'RDLP w Toruniu',
-  //   structure: 'RDLP',
-  //   unitUrl: 'https://www.torun.lasy.gov.pl/regionalna-dyrekcja-lp',
-  // },
-  // {
-  //   unitName: 'RDLP w Warszawie',
-  //   structure: 'RDLP',
-  //   unitUrl: 'https://www.warszawa.lasy.gov.pl/regionalna-dyrekcja-lp',
-  // },
-  {
-    unitName: 'RDLP w Radomiu',
-    structure: 'RDLP',
-    unitUrl: 'https://www.radom.lasy.gov.pl/regionalna-dyrekcja-lp',
-  },
-  {
-    unitName: 'RDLP w Lublinie',
-    structure: 'RDLP',
-    unitUrl: 'https://www.lublin.lasy.gov.pl/regionalna-dyrekcja-lp',
-  },
-  {
-    unitName: 'RDLP w Krośnie',
-    structure: 'RDLP',
-    unitUrl: 'https://www.krosno.lasy.gov.pl/regionalna-dyrekcja-lp',
-  },
-  // {
-  //   unitName: 'RDLP w Katowicach',
-  //   structure: 'RDLP',
-  //   unitUrl: 'https://www.katowice.lasy.gov.pl/regionalna-dyrekcja-lp',
-  // },
-  // {
-  //   unitName: 'RDLP w Krakowie',
-  //   structure: 'RDLP',
-  //   unitUrl: 'https://www.krakow.lasy.gov.pl/regionalna-dyrekcja-lp',
-  // },
-  // {
-  //   unitName: 'RDLP we Wrocławiu',
-  //   structure: 'RDLP',
-  //   unitUrl: 'https://www.wroclaw.lasy.gov.pl/regionalna-dyrekcja-lp',
-  // },
-
-  // {
-  //   unitName: 'Nadleśnictwo Gostynin',
-  //   structure: 'DISTRICT',
-  //   unitUrl: 'https://gostynin.lodz.lasy.gov.pl/nadlesnictwo',
-  // },
-  // {
-  //   unitName: 'Nadleśnictwo Konin',
-  //   structure: 'DISTRICT',
-  //   unitUrl: 'https://konin.poznan.lasy.gov.pl/nadlesnictwo',
-  // },
-];
 
 async function scrapUnitData(openDelay, unit) {
   return new Promise((resolve) => {
@@ -130,12 +29,12 @@ async function scrapUnitData(openDelay, unit) {
         let fullName = null;
 
         position = await page.evaluate(
-          (el) => el.querySelector('.name > span').textContent,
+          (el) => el.querySelector('.name > span')?.textContent,
           element
         );
 
         fullName = await page.evaluate(
-          (el) => el.querySelector('.full-name > span').textContent,
+          (el) => el.querySelector('.full-name > span')?.textContent,
           element
         );
 
@@ -151,6 +50,7 @@ async function scrapUnitData(openDelay, unit) {
           position,
           shoulderMarkImg: shoulderMark,
           rank,
+          area: unit.area,
         };
 
         console.log(employee);
@@ -180,7 +80,7 @@ async function scrapUnitData(openDelay, unit) {
         let department = null;
         try {
           department = await page.evaluate(
-            (el) => el.querySelector('h2 > a').textContent,
+            (el) => el.querySelector('h2 > a')?.textContent,
             element
           );
 
@@ -193,12 +93,12 @@ async function scrapUnitData(openDelay, unit) {
             let fullName = null;
 
             position = await page.evaluate(
-              (el) => el.querySelector('.name > span').textContent,
+              (el) => el.querySelector('.name > span')?.textContent,
               innerElement
             );
 
             fullName = await page.evaluate(
-              (el) => el.querySelector('.full-name > span').textContent,
+              (el) => el.querySelector('.full-name > span')?.textContent,
               innerElement
             );
 
@@ -215,6 +115,7 @@ async function scrapUnitData(openDelay, unit) {
               department,
               shoulderMarkImg: shoulderMark,
               rank,
+              area: unit.area,
             };
 
             console.log(employee);
@@ -254,7 +155,6 @@ async function scrapManyUnits() {
 
   for (let unit of units) {
     const openDelay = Math.random() * 100000 + 5000;
-    // const openDelay = Math.random() * 1;
     console.log('unit', unit.unitName);
     console.log({ openDelay });
 

@@ -8,6 +8,7 @@ const employeeSchema = mongoose.Schema(
     department: { type: String },
     shoulderMarkImg: { type: String },
     rank: { type: Number },
+    area: { type: String },
   },
   { timestamps: true }
 );
