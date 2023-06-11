@@ -1,5 +1,11 @@
 const db = {
   units: [
+    {
+      unitName: 'Dyrekcja Generalna LP',
+      area: 'DGLP/Zakłady/ZOL',
+      structure: 'DGLP',
+      unitUrl: 'https://www.lasy.gov.pl/pl/kontakt/dyrekcja-generalna-lp',
+    },
     // {
     //   unitName: 'RDLP w Szczecinie',
     //   area: 'RDLP w Szczecinie',
@@ -97,12 +103,12 @@ const db = {
     //   structure: 'RDLP',
     //   unitUrl: 'https://www.krakow.lasy.gov.pl/regionalna-dyrekcja-lp',
     // },
-    {
-      unitName: 'RDLP we Wrocławiu',
-      area: 'RDLP we Wrocławiu',
-      structure: 'RDLP',
-      unitUrl: 'https://www.wroclaw.lasy.gov.pl/regionalna-dyrekcja-lp',
-    },
+    // {
+    //   unitName: 'RDLP we Wrocławiu',
+    //   area: 'RDLP we Wrocławiu',
+    //   structure: 'RDLP',
+    //   unitUrl: 'https://www.wroclaw.lasy.gov.pl/regionalna-dyrekcja-lp',
+    // },
 
     // {
     //   unitName: 'Nadleśnictwo Gostynin',

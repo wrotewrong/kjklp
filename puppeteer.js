@@ -22,123 +22,258 @@ async function scrapUnitData(openDelay, unit) {
 
       await page.goto(unit.unitUrl);
 
-      const mainPositions = await page.$$('.positions > .position');
-
-      for (let element of mainPositions) {
-        let position = null;
-        let fullName = null;
-
-        position = await page.evaluate(
-          (el) => el.querySelector('.name > span')?.textContent,
-          element
+      // code for DGLP - this site has unique structure - diffrent selectors and layout than regional directorate and district pages
+      if (unit.structure === 'DGLP') {
+        //code that scraps data about the head of the unit
+        const generalDirectorateMainPositions = await page.$$(
+          '#content-core > .contactPeople'
         );
 
-        fullName = await page.evaluate(
-          (el) => el.querySelector('.full-name > span')?.textContent,
-          element
-        );
+        for (let element of generalDirectorateMainPositions) {
+          let position = null;
+          let fullName = null;
 
-        const { shoulderMark, rank } = getShoulderMarkImg(
-          position,
-          fullName,
-          unit.structure
-        );
-
-        let employee = {
-          fullName,
-          unitName: unit.unitName,
-          position,
-          shoulderMarkImg: shoulderMark,
-          rank,
-          area: unit.area,
-        };
-
-        console.log(employee);
-
-        try {
-          const response = await fetch(`http://localhost:8000/employee`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(employee),
-          });
-
-          if (response.ok) {
-            console.log('Data saved successfully');
-          } else {
-            console.error('Error saving data:', response.statusText);
-          }
-        } catch (error) {
-          console.error('Error saving data:', error);
-        }
-      }
-
-      const secondaryPositions = await page.$$('.departments > .department');
-
-      for (let element of secondaryPositions) {
-        let department = null;
-        try {
-          department = await page.evaluate(
-            (el) => el.querySelector('h2 > a')?.textContent,
+          position = await page.evaluate(
+            (el) => el.querySelector('.titles > h4')?.textContent,
             element
           );
 
-          const secondaryPositionsDepartments = await element.$$(
-            '.department-data > .department-positions > .department-position-wrapper'
+          fullName = await page.evaluate(
+            (el) => el.querySelector('.titles > p')?.textContent,
+            element
           );
 
-          for (let innerElement of secondaryPositionsDepartments) {
-            let position = null;
-            let fullName = null;
+          const { shoulderMark, rank } = getShoulderMarkImg(
+            position,
+            fullName,
+            unit.structure
+          );
 
-            position = await page.evaluate(
-              (el) => el.querySelector('.name > span')?.textContent,
-              innerElement
-            );
+          let employee = {
+            fullName,
+            unitName: unit.unitName,
+            position,
+            shoulderMarkImg: shoulderMark,
+            rank,
+            area: unit.area,
+          };
 
-            fullName = await page.evaluate(
-              (el) => el.querySelector('.full-name > span')?.textContent,
-              innerElement
-            );
+          console.log(employee);
 
-            const { shoulderMark, rank } = getShoulderMarkImg(
-              position,
-              fullName,
-              unit.structure
-            );
+          try {
+            const response = await fetch(`http://localhost:8000/employee`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(employee),
+            });
 
-            let employee = {
-              fullName,
-              unitName: unit.unitName,
-              position,
-              department,
-              shoulderMarkImg: shoulderMark,
-              rank,
-              area: unit.area,
-            };
-
-            console.log(employee);
-
-            try {
-              const response = await fetch(`http://localhost:8000/employee`, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(employee),
-              });
-
-              if (response.ok) {
-                console.log('Data saved successfully');
-              } else {
-                console.error('Error saving data:', response.statusText);
-              }
-            } catch (error) {
-              console.error('Error saving data:', error);
+            if (response.ok) {
+              console.log('Data saved successfully');
+            } else {
+              console.error('Error saving data:', response.statusText);
             }
+          } catch (error) {
+            console.error('Error saving data:', error);
           }
-        } catch (err) {}
+        }
+
+        //code that scraps data about the rest of the employees
+        const generalDirectorateSecondaryPositions = await page.$$(
+          '#content-core > .contactAccordion > div > .contactAccordion__content'
+        );
+
+        for (let element of generalDirectorateSecondaryPositions) {
+          // let department = null;
+          try {
+            department = await page.evaluate(
+              (el) => el.querySelector('p > strong')?.textContent,
+              element
+            );
+            console.log(department);
+
+            // const generalDirectorateSecondaryPositionsDepartments =
+            //   await element.$$('p > strong');
+
+            // for (let department of generalDirectorateSecondaryPositionsDepartments) {
+            //   // let position = null;
+            //   // let fullName = null;
+
+            //   department = await page.evaluate(
+            //     (el) => el.querySelector('h2 > a')?.textContent,
+            //     element
+            //   );
+
+            // position = await page.evaluate(
+            //   (el) => el.querySelector('.name > span')?.textContent,
+            //   innerElement
+            // );
+
+            // fullName = await page.evaluate(
+            //   (el) => el.querySelector('.full-name > span')?.textContent,
+            //   innerElement
+            // );
+
+            // const { shoulderMark, rank } = getShoulderMarkImg(
+            //   position,
+            //   fullName,
+            //   unit.structure
+            // );
+
+            // let employee = {
+            //   fullName,
+            //   unitName: unit.unitName,
+            //   position,
+            //   department,
+            //   shoulderMarkImg: shoulderMark,
+            //   rank,
+            //   area: unit.area,
+            // };
+
+            // console.log(employee);
+
+            // try {
+            //   const response = await fetch(`http://localhost:8000/employee`, {
+            //     method: 'POST',
+            //     headers: {
+            //       'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify(employee),
+            //   });
+
+            //   if (response.ok) {
+            //     console.log('Data saved successfully');
+            //   } else {
+            //     console.error('Error saving data:', response.statusText);
+            //   }
+            // } catch (error) {
+            //   console.error('Error saving data:', error);
+            // }
+            // }
+          } catch (err) {}
+        }
+      }
+
+      if (unit.structure === 'DGLP' || unit.structure === 'DISTRICT') {
+        const mainPositions = await page.$$('.positions > .position');
+
+        for (let element of mainPositions) {
+          let position = null;
+          let fullName = null;
+
+          position = await page.evaluate(
+            (el) => el.querySelector('.name > span')?.textContent,
+            element
+          );
+
+          fullName = await page.evaluate(
+            (el) => el.querySelector('.full-name > span')?.textContent,
+            element
+          );
+
+          const { shoulderMark, rank } = getShoulderMarkImg(
+            position,
+            fullName,
+            unit.structure
+          );
+
+          let employee = {
+            fullName,
+            unitName: unit.unitName,
+            position,
+            shoulderMarkImg: shoulderMark,
+            rank,
+            area: unit.area,
+          };
+
+          console.log(employee);
+
+          try {
+            const response = await fetch(`http://localhost:8000/employee`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(employee),
+            });
+
+            if (response.ok) {
+              console.log('Data saved successfully');
+            } else {
+              console.error('Error saving data:', response.statusText);
+            }
+          } catch (error) {
+            console.error('Error saving data:', error);
+          }
+        }
+
+        const secondaryPositions = await page.$$('.departments > .department');
+
+        for (let element of secondaryPositions) {
+          let department = null;
+          try {
+            department = await page.evaluate(
+              (el) => el.querySelector('h2 > a')?.textContent,
+              element
+            );
+
+            const secondaryPositionsDepartments = await element.$$(
+              '.department-data > .department-positions > .department-position-wrapper'
+            );
+
+            for (let innerElement of secondaryPositionsDepartments) {
+              let position = null;
+              let fullName = null;
+
+              position = await page.evaluate(
+                (el) => el.querySelector('.name > span')?.textContent,
+                innerElement
+              );
+
+              fullName = await page.evaluate(
+                (el) => el.querySelector('.full-name > span')?.textContent,
+                innerElement
+              );
+
+              const { shoulderMark, rank } = getShoulderMarkImg(
+                position,
+                fullName,
+                unit.structure
+              );
+
+              let employee = {
+                fullName,
+                unitName: unit.unitName,
+                position,
+                department,
+                shoulderMarkImg: shoulderMark,
+                rank,
+                area: unit.area,
+              };
+
+              console.log(employee);
+
+              try {
+                const response = await fetch(`http://localhost:8000/employee`, {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify(employee),
+                });
+
+                if (response.ok) {
+                  console.log('Data saved successfully');
+                } else {
+                  console.error('Error saving data:', response.statusText);
+                }
+              } catch (error) {
+                console.error('Error saving data:', error);
+              }
+            }
+          } catch (err) {}
+        }
       }
 
       await page.waitForTimeout(closeDelay);
