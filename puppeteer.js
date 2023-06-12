@@ -81,81 +81,70 @@ async function scrapUnitData(openDelay, unit) {
 
         //code that scraps data about the rest of the employees
         const generalDirectorateSecondaryPositions = await page.$$(
-          '#content-core > .contactAccordion > div > .contactAccordion__content'
+          '#content-core > .contactAccordion > div > .contactAccordion__content > p'
         );
 
-        for (let element of generalDirectorateSecondaryPositions) {
-          // let department = null;
-          try {
-            department = await page.evaluate(
-              (el) => el.querySelector('p > strong')?.textContent,
-              element
+        for (let i = 0; i < generalDirectorateSecondaryPositions.length; i++) {
+          const departmentElement = generalDirectorateSecondaryPositions[i];
+          const nameElement = generalDirectorateSecondaryPositions[i + 1];
+          const positionElement = generalDirectorateSecondaryPositions[i + 2];
+
+          const department = await page.evaluate(
+            (el) => el.querySelector('strong')?.textContent.trim(),
+            departmentElement
+          );
+
+          if (department && department != '') {
+            const fullName = await page.evaluate(
+              (el) => el.textContent.trim(),
+              nameElement
             );
-            console.log(department);
+            let position = await page.evaluate(
+              (el) => el.textContent.trim(),
+              positionElement
+            );
+            position.startsWith('tel') ? (position = department) : position;
 
-            // const generalDirectorateSecondaryPositionsDepartments =
-            //   await element.$$('p > strong');
+            const { shoulderMark, rank } = getShoulderMarkImg(
+              position,
+              fullName,
+              unit.structure
+            );
 
-            // for (let department of generalDirectorateSecondaryPositionsDepartments) {
-            //   // let position = null;
-            //   // let fullName = null;
+            let employee = {
+              fullName,
+              unitName: unit.unitName,
+              position,
+              department,
+              shoulderMarkImg: shoulderMark,
+              rank,
+              area: unit.area,
+            };
 
-            //   department = await page.evaluate(
-            //     (el) => el.querySelector('h2 > a')?.textContent,
-            //     element
-            //   );
+            console.log(employee);
 
-            // position = await page.evaluate(
-            //   (el) => el.querySelector('.name > span')?.textContent,
-            //   innerElement
-            // );
+            try {
+              const response = await fetch(`http://localhost:8000/employee`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(employee),
+              });
 
-            // fullName = await page.evaluate(
-            //   (el) => el.querySelector('.full-name > span')?.textContent,
-            //   innerElement
-            // );
-
-            // const { shoulderMark, rank } = getShoulderMarkImg(
-            //   position,
-            //   fullName,
-            //   unit.structure
-            // );
-
-            // let employee = {
-            //   fullName,
-            //   unitName: unit.unitName,
-            //   position,
-            //   department,
-            //   shoulderMarkImg: shoulderMark,
-            //   rank,
-            //   area: unit.area,
-            // };
-
-            // console.log(employee);
-
-            // try {
-            //   const response = await fetch(`http://localhost:8000/employee`, {
-            //     method: 'POST',
-            //     headers: {
-            //       'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify(employee),
-            //   });
-
-            //   if (response.ok) {
-            //     console.log('Data saved successfully');
-            //   } else {
-            //     console.error('Error saving data:', response.statusText);
-            //   }
-            // } catch (error) {
-            //   console.error('Error saving data:', error);
-            // }
-            // }
-          } catch (err) {}
+              if (response.ok) {
+                console.log('Data saved successfully');
+              } else {
+                console.error('Error saving data:', response.statusText);
+              }
+            } catch (error) {
+              console.error('Error saving data:', error);
+            }
+          }
         }
       }
 
-      if (unit.structure === 'DGLP' || unit.structure === 'DISTRICT') {
+      if (unit.structure === 'RDLP' || unit.structure === 'DISTRICT') {
         const mainPositions = await page.$$('.positions > .position');
 
         for (let element of mainPositions) {
@@ -290,6 +279,7 @@ async function scrapManyUnits() {
 
   for (let unit of units) {
     const openDelay = Math.random() * 100000 + 5000;
+    // const openDelay = Math.random() * 1 + 1;
     console.log('unit', unit.unitName);
     console.log({ openDelay });
 
