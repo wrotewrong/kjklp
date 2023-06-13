@@ -84,6 +84,10 @@ const shoulderMarkDB = [
       'gł. spec. sl_DISTRICT',
       'gł. spec. służby leśnej_DISTRICT',
       'nadleśniczy_DISTRICT',
+      'p.o. nadleśniczy_DISTRICT',
+      'p.o. nadleśniczego_DISTRICT',
+      'pełniący oobowiązki nadleśniczy_DISTRICT',
+      'pełniący oobowiązki nadleśniczego_DISTRICT',
     ],
     img: '3rectangles3leaves_top_unregular.png',
     rank: 4,
@@ -194,7 +198,11 @@ const shoulderMarkDB = [
 // it returns the assaigned image when it find a match
 // if it fails - there is another loop that does the same check for name scrapped from the site (rarely the name string contains the poistion)
 // if it can't assign the image it will take the image from the very last element of the array - which contains generic image for employees outside the Forest Service
-const getShoulderMarkImg = (downloadedPosition = '', downloadedName, unit) => {
+const getShoulderMarkImg = (
+  downloadedPosition = '',
+  downloadedName = '',
+  unit
+) => {
   for (let shoulderMark of shoulderMarkDB) {
     for (let position of shoulderMark.positions) {
       let [positionPart, unitStructurePart] = position.split('_');
