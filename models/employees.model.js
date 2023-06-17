@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const employeeSchema = mongoose.Schema(
   {
-    fullName: { type: String, required: true },
+    fullName: { type: String, required: true, minlength: 6, maxlength: 70 },
     unitName: { type: String, required: true },
     position: { type: String },
     department: { type: String },

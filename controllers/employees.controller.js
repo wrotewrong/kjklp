@@ -11,8 +11,8 @@ exports.getAll = async (req, res) => {
 exports.renderAllByDate = async (req, res) => {
   try {
     let selectedPeriod = req.query.selectedPeriod || '';
-    let selectedRank = req.query.selectedRank || '';
     let selectedArea = req.query.selectedArea || '';
+    // let selectedRank = req.query.selectedRank || '';
 
     const sevenDaysAgo = new Date();
     if (selectedPeriod === 'tydzień') {
@@ -29,9 +29,9 @@ exports.renderAllByDate = async (req, res) => {
       filterQuery.area = req.query.selectedArea;
     }
 
-    if (req.query.selectedRank === 'wysokie') {
-      filterQuery.rank = { $lte: 5 };
-    }
+    // if (req.query.selectedRank === 'wysokie') {
+    //   filterQuery.rank = { $lte: 5 };
+    // }
 
     console.log({ filterQuery });
 
@@ -40,8 +40,8 @@ exports.renderAllByDate = async (req, res) => {
     res.render('employees', {
       employees: requestedEmployees.sort((a, b) => b.createdAt - a.createdAt),
       selectedPeriod,
-      selectedRank,
       selectedArea,
+      // selectedRank,
     });
   } catch (err) {
     res.status(500).json({ message: err });

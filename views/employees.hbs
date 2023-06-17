@@ -1,5 +1,6 @@
-<h1>Oto ostatnie zmiany kadrowe w LP
-  <p class='text-primary'>text-primary</p>
+
+<div class="employees">
+<h1>Ostatnie zmiany kadrowe w LP</h1>
   <form action='/list' method='GET'>
     <label>Terytorium:</label>
     <select id='dropdownArea' name='selectedArea'>
@@ -30,11 +31,11 @@
         <option value='miesiąc' {{#if (eq selectedPeriod 'miesiąc')}}selected{{/if}}>miesiąc</option>
     </select>
 
-    <label>Stanowiska:</label>
+    {{!-- <label>Stanowiska:</label>
     <select id='dropdownRank' name='selectedRank'>
         <option value='wysokie' {{#if (eq selectedRank 'wysokie')}}selected{{/if}}>wysokie</option>
         <option value='wszystkie' {{#if (eq selectedRank 'wszystkie')}}selected{{/if}}>wszystkie</option>
-    </select>
+    </select> --}}
     
     <button type='submit'>Filtruj</button>
   </form>
@@ -53,4 +54,4 @@
       <div class='shoulder-mark'><img src='{{shoulderMarkImg}}' alt='' /></div>
     </div>
   {{/each}}
-</h1>
+</div>
