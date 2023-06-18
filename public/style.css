@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 
+html {
+  overflow-y: scroll;
+}
+
 body {
   font-size: 32px;
   background: #c1d0b5;
@@ -12,13 +16,44 @@ body {
   max-width: 1000px;
 }
 
-h1 {
-  font-weight: lighter;
+.header {
+  margin-top: 20px;
+  font-family: 'Alfa Slab One', sans-serif;
+  text-transform: uppercase;
+}
+
+.home {
+  position: relative;
+}
+
+.homesite-button {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff8de;
+  margin-bottom: 20px;
+  border: 3px solid #eac37a;
+  border-radius: 25px;
+  padding: 15px;
 }
 
 a {
-  color: #999;
-  font-size: 0.8rem;
+  /* position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); */
+  color: #737f6d;
+  font-size: 2rem;
+  text-decoration: none;
+  /* width: 200px; */
+}
+
+.people-img {
+  height: 900px;
+  background-image: url(./foresters.svg);
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .employee {
@@ -92,6 +127,10 @@ form {
 }
 
 footer {
+  position: relative;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 1rem;
 }
 
@@ -103,6 +142,10 @@ footer {
   .pine-img.bottom {
     top: 610px;
     background-repeat: repeat-y;
+  }
+
+  .people-img {
+    height: 700px;
   }
 }
 
