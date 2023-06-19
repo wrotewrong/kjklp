@@ -7,7 +7,7 @@ html {
 body {
   font-size: 32px;
   background: #c1d0b5;
-  color: #737f6d;
+  color: #72776d;
   font-family: 'Open Sans', sans-serif;
   text-align: center;
 }
@@ -17,9 +17,11 @@ body {
 }
 
 .header {
-  margin-top: 20px;
+  margin-top: 30px;
   font-family: 'Alfa Slab One', sans-serif;
   text-transform: uppercase;
+  color: #72776d;
+  font-size: 3rem;
 }
 
 .home {
@@ -39,14 +41,9 @@ body {
 }
 
 a {
-  /* position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); */
   color: #737f6d;
   font-size: 2rem;
   text-decoration: none;
-  /* width: 200px; */
 }
 
 .people-img {
@@ -126,6 +123,29 @@ form {
   font-size: 1.5rem;
 }
 
+.territory,
+.period,
+.submit-button {
+  margin-top: 10px;
+}
+
+label {
+  color: black;
+}
+
+.submit-button {
+  background-color: #eac37a;
+  padding: 5px 20px;
+  border: none;
+  border: 3px solid #be7e07;
+  border-radius: 25px;
+  color: black;
+}
+
+.submit-button:hover {
+  background-color: #c98810;
+}
+
 footer {
   position: relative;
   bottom: 0;
@@ -135,6 +155,10 @@ footer {
 }
 
 @media (max-width: 1680px) {
+  .people-img {
+    scale: 0.95;
+  }
+
   .pine-img {
     width: 300px;
   }
@@ -149,31 +173,73 @@ footer {
   }
 }
 
+@media (max-width: 1400px) {
+  .container {
+    max-width: 800px;
+  }
+
+  .position,
+  .department {
+    font-size: 1.2rem;
+  }
+
+  .fullname,
+  .unitname {
+    font-size: 1.8rem;
+  }
+}
+
 @media (max-width: 1200px) {
+  .pine-img {
+    width: 200px;
+  }
+
+  .pine-img.bottom {
+    top: 400px;
+    background-repeat: repeat-y;
+  }
+
+  .container {
+    max-width: 700px;
+  }
+  .position,
+  .department {
+    font-size: 1rem;
+  }
+
+  .fullname,
+  .unitname {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 950px) {
   .pine-img {
     display: none;
   }
 }
 
 @media (max-width: 700px) {
-  .position {
-    font-size: 1rem;
+  .header {
+    margin-top: 20px;
   }
 
-  .department {
-    font-size: 1rem;
+  .homesite-button {
+    padding: 5px;
+    width: 70%;
   }
 
-  .fullname {
-    font-size: 1.5rem;
-  }
-
-  .unitname {
-    font-size: 1.5rem;
+  .people-img {
+    scale: 0.9;
   }
 }
 
 @media (max-width: 400px) {
+  .people-img {
+    height: 600px;
+    background-position: top center;
+  }
+
   .shoulder-mark:first-child {
     display: none;
   }
