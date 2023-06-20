@@ -142,7 +142,7 @@ label {
   color: black;
 }
 
-.submit-button:hover {
+button:hover {
   background-color: #c98810;
 }
 
