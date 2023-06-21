@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 
+* {
+  margin: 0;
+  padding: 0;
+}
+
 html {
   overflow-y: scroll;
 }
@@ -10,6 +15,7 @@ body {
   color: #72776d;
   font-family: 'Open Sans', sans-serif;
   text-align: center;
+  overflow: hidden;
 }
 
 .container {
@@ -26,6 +32,7 @@ body {
 
 .home {
   position: relative;
+  height: 90%;
 }
 
 .homesite-button {
@@ -37,7 +44,7 @@ body {
   margin-bottom: 20px;
   border: 3px solid #eac37a;
   border-radius: 25px;
-  padding: 15px;
+  padding: 5px 15px;
 }
 
 a {
@@ -47,10 +54,12 @@ a {
 }
 
 .people-img {
-  height: 900px;
-  background-image: url(./foresters.svg);
+  height: 80%;
+  width: 100%;
+  background-image: url(./foresters-big.jpg);
   background-repeat: no-repeat;
   background-position: center;
+  background-size: contain;
 }
 
 .employee {
@@ -100,7 +109,7 @@ a {
   top: 0;
   z-index: -1;
   width: 400px;
-  background-image: url(./pine-left.svg);
+  background-image: url(./pine.svg);
   background-repeat: no-repeat;
   background-size: contain;
 }
@@ -126,7 +135,7 @@ form {
 .territory,
 .period,
 .submit-button {
-  margin-top: 10px;
+  margin: 10px 0;
 }
 
 label {
@@ -135,7 +144,7 @@ label {
 
 .submit-button {
   background-color: #eac37a;
-  padding: 5px 20px;
+  padding: 5px 10px;
   border: none;
   border: 3px solid #be7e07;
   border-radius: 25px;
@@ -155,9 +164,9 @@ footer {
 }
 
 @media (max-width: 1680px) {
-  .people-img {
+  /* .people-img {
     scale: 0.95;
-  }
+  } */
 
   .pine-img {
     width: 300px;
@@ -168,9 +177,9 @@ footer {
     background-repeat: repeat-y;
   }
 
-  .people-img {
+  /* .people-img {
     height: 700px;
-  }
+  } */
 }
 
 @media (max-width: 1400px) {
@@ -229,18 +238,28 @@ footer {
     width: 70%;
   }
 
-  .people-img {
+  /* .people-img {
     scale: 0.9;
-  }
+  } */
 }
 
 @media (max-width: 400px) {
-  .people-img {
+  /* .people-img {
     height: 600px;
     background-position: top center;
+  } */
+
+  .people-img {
+    background-size: cover;
   }
 
   .shoulder-mark:first-child {
+    display: none;
+  }
+}
+
+@media ((orientation: landscape) and (max-height: 400px)) {
+  .people-img {
     display: none;
   }
 }
