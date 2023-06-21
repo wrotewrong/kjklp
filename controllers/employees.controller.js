@@ -15,10 +15,10 @@ exports.renderAllByDate = async (req, res) => {
     // let selectedRank = req.query.selectedRank || '';
 
     const sevenDaysAgo = new Date();
-    if (selectedPeriod === 'tydzień') {
-      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 1);
-    } else {
+    if (selectedPeriod === 'miesiąc') {
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 30);
+    } else {
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
     }
 
     const filterQuery = {

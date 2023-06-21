@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
 });
 
 app.use((req, res) => {
-  res.status(404).send('Not found... XD');
+  res.status(404).send('Not found...');
 });
 
 app.listen(process.env.PORT || 8000, () => {
