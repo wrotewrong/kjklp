@@ -12,6 +12,6 @@ router.post('/employee', employeesController.addEmployeeIfNotExist);
 
 router.get('/employees', employeesController.getAll);
 
-router.post('/employees', employeesController.addEmployee);
+// router.post('/employees', employeesController.addEmployee);
 
 module.exports = router;

@@ -1,4 +1,5 @@
 const Employee = require('../models/employees.model');
+require('dotenv').config();
 
 exports.getAll = async (req, res) => {
   try {
@@ -63,33 +64,45 @@ exports.getOne = async (req, res) => {
 
 exports.addEmployeeIfNotExist = async (req, res) => {
   try {
-    const existingEmployee = await Employee.findOne({ ...req.body });
-    if (existingEmployee) {
-      console.log(
-        `${existingEmployee.fullName} -- ${existingEmployee.position} -- ${existingEmployee.unitName} -- ALREADY EXIST`
-      );
-      res.status(400).json({ message: 'Already exist' });
+    const secretDbKey = req.body.secretDbKey;
+    if (secretDbKey !== process.env.SECRET_DB_KEY) {
+      console.log('you are not authorized to change the database');
+      res
+        .status(401)
+        .json({ message: 'you are not authorized to change the database' });
     } else {
-      const newEmployee = new Employee({ ...req.body });
-      await newEmployee.save();
-      console.log(
-        `${newEmployee.fullName} -- ${newEmployee.position} -- ${newEmployee.unitName} -- HAS BEEN ADDED`
-      );
-      res.json({ message: 'OK', newEmployee });
+      const existingEmployee = await Employee.findOne({
+        fullName: req.body.fullName,
+        unitName: req.body.unitName,
+        position: req.body.position,
+      });
+      if (existingEmployee) {
+        console.log(
+          `${existingEmployee.fullName} -- ${existingEmployee.position} -- ${existingEmployee.unitName} -- ALREADY EXIST`
+        );
+        res.status(400).json({ message: 'Already exist' });
+      } else {
+        const newEmployee = new Employee({ ...req.body });
+        await newEmployee.save();
+        console.log(
+          `${newEmployee.fullName} -- ${newEmployee.position} -- ${newEmployee.unitName} -- HAS BEEN ADDED`
+        );
+        res.json({ message: 'OK', newEmployee });
+      }
     }
   } catch (err) {
     res.status(500).json({ message: err });
   }
 };
 
-exports.addEmployee = async (req, res) => {
-  try {
-    const newEmployee = new Employee({
-      ...req.body,
-    });
-    await newEmployee.save();
-    res.json({ message: 'OK', newEmployee });
-  } catch (err) {
-    res.status(500).json({ message: err });
-  }
-};
+// exports.addEmployee = async (req, res) => {
+//   try {
+//     const newEmployee = new Employee({
+//       ...req.body,
+//     });
+//     await newEmployee.save();
+//     res.json({ message: 'OK', newEmployee });
+//   } catch (err) {
+//     res.status(500).json({ message: err });
+//   }
+// };

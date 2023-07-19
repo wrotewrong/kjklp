@@ -7,280 +7,7 @@ require('dotenv').config();
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 puppeteer.use(StealthPlugin());
 
-// async function scrapUnitData(openDelay, unit) {
-//   return new Promise((resolve) => {
-//     setTimeout(async () => {
-//       const closeDelay = Math.random() * 10000 + 5000;
-//       console.log({ closeDelay });
-//       const browser = await puppeteer.launch({
-//         headless: 'new',
-//         executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
-//         defaultViewport: false,
-//         ignoreHTTPSErrors: true,
-//         ignoreDefaultArgs: ['--disable-extensions'],
-//       });
-//       const page = await browser.newPage();
-
-//       await page.goto(unit.unitUrl);
-
-//       // code for DGLP - this site has unique structure - diffrent selectors and layout than regional directorate and district pages
-//       if (unit.structure === 'DGLP') {
-//         //code that scraps data about the head of the unit
-//         const generalDirectorateMainPositions = await page.$$(
-//           '#content-core > .contactPeople'
-//         );
-
-//         for (let element of generalDirectorateMainPositions) {
-//           let position = null;
-//           let fullName = null;
-
-//           position = await page.evaluate(
-//             (el) => el.querySelector('.titles > h4')?.textContent,
-//             element
-//           );
-
-//           fullName = await page.evaluate(
-//             (el) => el.querySelector('.titles > p')?.textContent,
-//             element
-//           );
-
-//           const { shoulderMark, rank } = getShoulderMarkImg(
-//             position,
-//             fullName,
-//             unit.structure
-//           );
-
-//           let employee = {
-//             fullName,
-//             unitName: unit.unitName,
-//             position,
-//             shoulderMarkImg: shoulderMark,
-//             rank,
-//             area: unit.area,
-//           };
-
-//           console.log(employee);
-
-//           try {
-//             const response = await fetch(`${process.env.SITE_URL}/employee`, {
-//               method: 'POST',
-//               headers: {
-//                 'Content-Type': 'application/json',
-//               },
-//               body: JSON.stringify(employee),
-//             });
-
-//             if (response.ok) {
-//               console.log('Data saved successfully');
-//             } else {
-//               console.error('Error saving data:', response.statusText);
-//             }
-//           } catch (error) {
-//             console.error('Error saving data:', error);
-//           }
-//         }
-
-//         //code that scraps data about the rest of the employees
-//         const generalDirectorateSecondaryPositions = await page.$$(
-//           '#content-core > .contactAccordion > div > .contactAccordion__content > p'
-//         );
-
-//         for (let i = 0; i < generalDirectorateSecondaryPositions.length; i++) {
-//           const departmentElement = generalDirectorateSecondaryPositions[i];
-//           const nameElement = generalDirectorateSecondaryPositions[i + 1];
-//           const positionElement = generalDirectorateSecondaryPositions[i + 2];
-
-//           const department = await page.evaluate(
-//             (el) => el.querySelector('strong')?.textContent.trim(),
-//             departmentElement
-//           );
-
-//           if (department && department != '') {
-//             const fullName = await page.evaluate(
-//               (el) => el.textContent.trim(),
-//               nameElement
-//             );
-//             let position = await page.evaluate(
-//               (el) => el.textContent.trim(),
-//               positionElement
-//             );
-//             position.startsWith('tel') ? (position = department) : position;
-
-//             const { shoulderMark, rank } = getShoulderMarkImg(
-//               position,
-//               fullName,
-//               unit.structure
-//             );
-
-//             let employee = {
-//               fullName,
-//               unitName: unit.unitName,
-//               position,
-//               department,
-//               shoulderMarkImg: shoulderMark,
-//               rank,
-//               area: unit.area,
-//             };
-
-//             console.log(employee);
-
-//             try {
-//               const response = await fetch(`${process.env.SITE_URL}/employee`, {
-//                 method: 'POST',
-//                 headers: {
-//                   'Content-Type': 'application/json',
-//                 },
-//                 body: JSON.stringify(employee),
-//               });
-
-//               if (response.ok) {
-//                 console.log('Data saved successfully');
-//               } else {
-//                 console.error('Error saving data:', response.statusText);
-//               }
-//             } catch (error) {
-//               console.error('Error saving data:', error);
-//             }
-//           }
-//         }
-//       }
-
-//       if (unit.structure === 'RDLP' || unit.structure === 'DISTRICT') {
-//         const mainPositions = await page.$$('.positions > .position');
-
-//         for (let element of mainPositions) {
-//           let position = null;
-//           let fullName = null;
-
-//           position = await page.evaluate(
-//             (el) => el.querySelector('.name > span')?.textContent,
-//             element
-//           );
-
-//           fullName = await page.evaluate(
-//             (el) => el.querySelector('.full-name > span')?.textContent,
-//             element
-//           );
-
-//           const { shoulderMark, rank } = getShoulderMarkImg(
-//             position,
-//             fullName,
-//             unit.structure
-//           );
-
-//           let employee = {
-//             fullName,
-//             unitName: unit.unitName,
-//             position,
-//             shoulderMarkImg: shoulderMark,
-//             rank,
-//             area: unit.area,
-//           };
-
-//           console.log(employee);
-
-//           try {
-//             const response = await fetch(`${process.env.SITE_URL}/employee`, {
-//               method: 'POST',
-//               headers: {
-//                 'Content-Type': 'application/json',
-//               },
-//               body: JSON.stringify(employee),
-//             });
-
-//             if (response.ok) {
-//               console.log('Data saved successfully');
-//             } else {
-//               console.error('Error saving data:', response.statusText);
-//             }
-//           } catch (error) {
-//             console.error('Error saving data:', error);
-//           }
-//         }
-
-//         if (unit.structure === 'RDLP') {
-//           const secondaryPositions = await page.$$(
-//             '.departments > .department'
-//           );
-
-//           for (let element of secondaryPositions) {
-//             let department = null;
-//             try {
-//               department = await page.evaluate(
-//                 (el) => el.querySelector('h2 > a')?.textContent,
-//                 element
-//               );
-
-//               const secondaryPositionsDepartments = await element.$$(
-//                 '.department-data > .department-positions > .department-position-wrapper'
-//               );
-
-//               for (let innerElement of secondaryPositionsDepartments) {
-//                 let position = null;
-//                 let fullName = null;
-
-//                 position = await page.evaluate(
-//                   (el) => el.querySelector('.name > span')?.textContent,
-//                   innerElement
-//                 );
-
-//                 fullName = await page.evaluate(
-//                   (el) => el.querySelector('.full-name > span')?.textContent,
-//                   innerElement
-//                 );
-
-//                 const { shoulderMark, rank } = getShoulderMarkImg(
-//                   position,
-//                   fullName,
-//                   unit.structure
-//                 );
-
-//                 let employee = {
-//                   fullName,
-//                   unitName: unit.unitName,
-//                   position,
-//                   department,
-//                   shoulderMarkImg: shoulderMark,
-//                   rank,
-//                   area: unit.area,
-//                 };
-
-//                 console.log(employee);
-
-//                 try {
-//                   const response = await fetch(
-//                     `${process.env.SITE_URL}/employee`,
-//                     {
-//                       method: 'POST',
-//                       headers: {
-//                         'Content-Type': 'application/json',
-//                       },
-//                       body: JSON.stringify(employee),
-//                     }
-//                   );
-
-//                   if (response.ok) {
-//                     console.log('Data saved successfully');
-//                   } else {
-//                     console.error('Error saving data:', response.statusText);
-//                   }
-//                 } catch (error) {
-//                   console.error('Error saving data:', error);
-//                 }
-//               }
-//             } catch (err) {}
-//           }
-//         }
-//       }
-
-//       await page.waitForTimeout(closeDelay);
-//       await browser.close();
-
-//       console.log(`All done, resolving`);
-//       resolve();
-//     }, openDelay);
-//   });
-// }
+const secretDbKey = process.env.SECRET_DB_KEY_ARGUMENT;
 
 async function scrapUnitData(openDelay, unit) {
   return new Promise((resolve) => {
@@ -366,9 +93,10 @@ async function scrapUnitData(openDelay, unit) {
             shoulderMarkImg: shoulderMark,
             rank,
             area: unit.area,
+            secretDbKey,
           };
 
-          console.log(employee);
+          console.log(employee.fullName, employee.unitName, employee.position);
 
           await postEmployee(employee);
         }
@@ -418,9 +146,14 @@ async function scrapUnitData(openDelay, unit) {
               shoulderMarkImg: shoulderMark,
               rank,
               area: unit.area,
+              secretDbKey,
             };
 
-            console.log(employee);
+            console.log(
+              employee.fullName,
+              employee.unitName,
+              employee.position
+            );
 
             await postEmployee(employee);
           }
@@ -471,9 +204,14 @@ async function scrapUnitData(openDelay, unit) {
               shoulderMarkImg: shoulderMark,
               rank,
               area: unit.area,
+              secretDbKey,
             };
 
-            console.log(employee);
+            console.log(
+              employee.fullName,
+              employee.unitName,
+              employee.position
+            );
 
             await postEmployee(employee);
           }
