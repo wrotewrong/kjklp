@@ -116,6 +116,8 @@ const shoulderMarkDB = [
       'p.o. nadleśniczego_DISTRICT',
       'p. o. nadleśniczego_DISTRICT',
       'p. o. nadleśniczy_DISTRICT',
+      'p.o Nadleśniczego_DISTRICT',
+      'p.o nadleśniczego_DISTRICT',
       'pełniący oobowiązki nadleśniczy_DISTRICT',
       'pełniący oobowiązki nadleśniczego_DISTRICT',
     ],
