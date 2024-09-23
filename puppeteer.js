@@ -23,7 +23,11 @@ async function scrapUnitData(openDelay, unit) {
       });
       const page = await browser.newPage();
 
-      await page.goto(unit.unitUrl);
+      try {
+        await page.goto(unit.unitUrl);
+      } catch (error) {
+        console.error(`Error loading ${unit.unitUrl}: ${error.message}`);
+      }
 
       // declaration of function that adds scrapped employees to the database
       async function postEmployee(employee) {
